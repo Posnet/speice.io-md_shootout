@@ -5,14 +5,14 @@ use std::process::Command;
 
 fn main() {
     capnpc::CompilerCommand::new()
-        .src_prefix("")
-        .file("marketdata.capnp")
+        .src_prefix("schemas")
+        .file("schemas/marketdata.capnp")
         .output_path("src/")
         .run()
         .expect("Unable to compile capnpc");
 
     flatc_rust::run(flatc_rust::Args {
-        inputs: &[Path::new("marketdata.fbs")],
+        inputs: &[Path::new("schemas/marketdata.fbs")],
         out_dir: Path::new("src/"),
         ..Default::default()
     })
@@ -28,7 +28,7 @@ fn main() {
         .arg("-Dsbe.target.namespace=marketdata_sbe")
         .arg("-jar")
         .arg("sbe-all-1.13.2-all.jar")
-        .arg("marketdata.xml")
+        .arg("schemas/marketdata.xml")
         .output()
         .expect("Unable to execute SBE compiler");
 }
