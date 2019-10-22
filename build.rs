@@ -27,7 +27,7 @@ fn main() {
         .arg("-Dsbe.target.language=uk.co.real_logic.sbe.generation.rust.Rust")
         .arg("-Dsbe.target.namespace=marketdata_sbe")
         .arg("-jar")
-        .arg("sbe-all-1.13.2-all.jar")
+        .arg("bin/sbe-all-1.13.2-all.jar")
         .arg("schemas/marketdata.xml")
         .output()
         .expect("Unable to execute SBE compiler");

@@ -14,12 +14,14 @@ from multiprocessing.pool import Pool
 
 BASE_URL = "https://api.iextrading.com/1.0/hist"
 CONCURRENT_DOWNLOAD_LIMIT = 8
+TARGET_DIR = 'data'
 
 def get_filename(url):
     base, params = url.split('?')
     fname = base.rsplit('/', 1)[-1]
     fname = unquote(fname)
     fname = fname.replace('/', '_')
+    fname = TARGET_DIR + '/' + fname
     return fname
 
 def fetch_url(url):
