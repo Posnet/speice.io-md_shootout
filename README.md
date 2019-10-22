@@ -16,4 +16,9 @@ Planned:
  - ASN.1
  - CBOR
  - Thrift (Compact Protocol)
+ - Json
+ - Csv? (The rust csv crate is very fast...)
+ - Colfer (If it gets rust support)
+ - FastBinaryEncoding (If it gets rust support)
+ - Arrow
  
