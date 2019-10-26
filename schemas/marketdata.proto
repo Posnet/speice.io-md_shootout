@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package marketdata_proto;
+
+message Trade {
+    uint64 price = 1;
+    uint32 size = 2;
+
+}
+
+message LevelUpdate {
+    uint64 price = 1;
+    uint32 size = 2;
+    uint32 flags = 3;
+    enum Side {
+        BUY = 0;
+        SELL = 1;
+    }
+    Side side = 4;
+}
+
+message Message {
+    int64 ts_nanos = 1;
+    string symbol = 2;
+    oneof message_oneof {
+        Trade trade = 3;
+        LevelUpdate level = 4;
+
+    }
+}
+
+message MultiMessage {
+  uint64 seqno = 1;
+  repeated Message messages = 2;
+}

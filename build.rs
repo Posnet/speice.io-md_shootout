@@ -1,5 +1,6 @@
-extern crate capnpc;
 
+use capnpc;
+use prost_build;
 use std::path::Path;
 use std::process::Command;
 
@@ -31,4 +32,9 @@ fn main() {
         .arg("schemas/marketdata.xml")
         .output()
         .expect("Unable to execute SBE compiler");
+
+    let mut proto_config = prost_build::Config::new();
+    proto_config.out_dir("src/");
+    proto_config.compile_protos(&["schemas/marketdata.proto"],
+                                &["schemas/"]).expect("Unable to generate protobuf");
 }
