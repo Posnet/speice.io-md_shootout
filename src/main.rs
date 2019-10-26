@@ -22,12 +22,16 @@ pub mod marketdata_capnp;
 pub mod marketdata_generated; // Flatbuffers
 #[allow(dead_code)]
 pub mod marketdata_sbe;
+#[allow(dead_code)]
+pub mod marketdata_proto;
 
 mod capnp_runner;
 mod flatbuffers_runner;
+mod sbe_runner;
+mod proto_runner;
+
 mod iex;
 mod parsers;
-mod sbe_runner;
 
 fn main() {
     let matches = App::new("Marketdata Shootout")
@@ -107,6 +111,22 @@ fn main() {
 
     assert_eq!(flatbuffers.summary_stats, sbe.summary_stats);
     println!("SBE:\n{}\n", sbe.timing_stats());
+
+
+    let analysis_start = SystemTime::now();
+    let proto = run_analysis(
+        &buf,
+        &mut proto_runner::ProtoWriter::new(),
+        &mut proto_runner::ProtoReader::new(),
+    );
+    let analysis_end = SystemTime::now()
+        .duration_since(analysis_start)
+        .unwrap()
+        .as_secs();
+    println!("Proto total time={}s", analysis_end);
+
+    assert_eq!(sbe.summary_stats, proto.summary_stats);
+    println!("Proto:\n{}\n", sbe.timing_stats());
 }
 
 #[derive(Debug, PartialEq)]
